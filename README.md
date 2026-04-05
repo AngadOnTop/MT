@@ -2,7 +2,7 @@
 
 > A sleek, modern web application for tracking HSC assessments, subject weights, and final marks across Years 10-12.
 
-**Made by the goat Angad** ✨
+**Made by the goat Angad** 
 
 ---
 
