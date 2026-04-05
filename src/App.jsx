@@ -1,121 +1,90 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useEffect } from 'react'
+import { useStore } from './useStore'
+import Header from './components/Header'
+import SummaryCards from './components/SummaryCards'
+import ChartsPanel from './components/ChartsPanel'
+import TermControls from './components/TermControls'
+import SubjectBlock from './components/SubjectBlock'
+import styles from './App.module.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const {
+    subjects, tasks, darkMode, year, currentTerm, expanded, terms,
+    setCurrentTerm, setYear, toggleDarkMode,
+    addTask, deleteTask, updateTask,
+    addSubject, deleteSubject, toggleExpand,
+  } = useStore()
+
+  const [newSubject, setNewSubject] = useState('')
+
+  // Apply dark mode to root element
+  useEffect(() => {
+    document.documentElement.setAttribute('data-dark', darkMode)
+  }, [darkMode])
+
+  const handleEditYear = () => {
+    const input = prompt('Enter year (10–12):', String(year))
+    if (input === null) return
+    const parsed = parseInt(input)
+    if (parsed >= 10 && parsed <= 12) {
+      setYear(parsed)
+    } else {
+      alert('Please enter a year between 10 and 12')
+    }
+  }
+
+  const handleAddSubject = () => {
+    if (!newSubject.trim()) return
+    addSubject(newSubject)
+    setNewSubject('')
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className={styles.wrap}>
+      <Header
+        darkMode={darkMode}
+        year={year}
+        onToggleDark={toggleDarkMode}
+        onEditYear={handleEditYear}
+      />
 
-      <div className="ticks"></div>
+      <SummaryCards
+        subjects={subjects}
+        tasks={tasks}
+        currentTerm={currentTerm}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <ChartsPanel
+        subjects={subjects}
+        tasks={tasks}
+        currentTerm={currentTerm}
+      />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <TermControls
+        terms={terms}
+        currentTerm={currentTerm}
+        onSelect={setCurrentTerm}
+        newSubject={newSubject}
+        onSubjectChange={setNewSubject}
+        onAddSubject={handleAddSubject}
+      />
+
+      <div className={`${styles.subjectList} fade-up-3`}>
+        {subjects.map(s => (
+          <SubjectBlock
+            key={s.id}
+            subject={s}
+            tasks={tasks}
+            currentTerm={currentTerm}
+            expanded={!!expanded[s.id]}
+            onToggle={() => toggleExpand(s.id)}
+            onAddTask={addTask}
+            onDeleteTask={deleteTask}
+            onUpdateTask={updateTask}
+            onDeleteSubject={deleteSubject}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
-
-export default App

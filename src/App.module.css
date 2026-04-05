@@ -1,0 +1,11 @@
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.subjectList {}
+
+@media (max-width: 600px) {
+  .wrap { padding: 32px 16px 60px; }
+}

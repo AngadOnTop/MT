@@ -1,0 +1,57 @@
+.header { margin-bottom: 40px; }
+
+.headerTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-2);
+  margin-top: 4px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.darkBtn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  padding: 4px 8px;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+.darkBtn:hover { transform: scale(1.15); }
+
+.yearBadge {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color var(--transition), background var(--transition);
+}
+.yearBadge:hover { border-color: var(--border-strong); background: var(--surface); }
+
+@media (max-width: 600px) {
+  .title { font-size: 22px; }
+}
