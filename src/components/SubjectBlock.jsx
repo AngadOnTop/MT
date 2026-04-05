@@ -24,7 +24,9 @@ export default function SubjectBlock({ subject, tasks, currentTerm, expanded, on
         )}
         <button
           className={styles.deleteSubj}
-          onClick={e => { e.stopPropagation(); onDeleteSubject(subject.id) }}
+          onClick={e => { e.preventDefault(); e.stopPropagation(); onDeleteSubject(subject.id) }}
+          onTouchEnd={e => { e.preventDefault(); e.stopPropagation(); onDeleteSubject(subject.id) }}
+          type="button"
           title="Delete subject"
         >×</button>
         <span className={`${styles.arrow} ${expanded ? styles.arrowOpen : ''}`}>▶</span>
