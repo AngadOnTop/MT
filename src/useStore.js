@@ -104,12 +104,15 @@ export function useStore() {
   }, [subjects.length, setSubjects, setTasks])
 
   const deleteSubject = useCallback((id) => {
-    setSubjects(prev => prev.filter(s => s.id !== id))
-    setTasks(prev => {
-      const next = { ...prev }
-      delete next[id]
-      return next
-    })
+    const confirmed = window.confirm(`Are you sure you want to delete this subject? All tasks will be removed.`)
+    if (confirmed) {
+      setSubjects(prev => prev.filter(s => s.id !== id))
+      setTasks(prev => {
+        const next = { ...prev }
+        delete next[id]
+        return next
+      })
+    }
   }, [setSubjects, setTasks])
 
   const toggleExpand = useCallback((sid) => {

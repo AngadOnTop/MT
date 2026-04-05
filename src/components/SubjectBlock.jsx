@@ -9,7 +9,6 @@ export default function SubjectBlock({ subject, tasks, currentTerm, expanded, on
   const score = result !== null ? result.score.toFixed(1) + '%' : '—'
   const barWidth = result !== null ? Math.min(result.score, 100).toFixed(1) : 0
   const grade = result !== null ? getGrade(result.score) : null
-  const isCustom = subject.id.startsWith('custom_')
 
   return (
     <div className={styles.block}>
@@ -23,13 +22,11 @@ export default function SubjectBlock({ subject, tasks, currentTerm, expanded, on
             {grade.label}
           </span>
         )}
-        {isCustom && (
-          <button
-            className={styles.deleteSubj}
-            onClick={e => { e.stopPropagation(); onDeleteSubject(subject.id) }}
-            title="Delete subject"
-          >×</button>
-        )}
+        <button
+          className={styles.deleteSubj}
+          onClick={e => { e.stopPropagation(); onDeleteSubject(subject.id) }}
+          title="Delete subject"
+        >×</button>
         <span className={`${styles.arrow} ${expanded ? styles.arrowOpen : ''}`}>▶</span>
       </div>
 
