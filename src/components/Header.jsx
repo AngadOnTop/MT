@@ -5,7 +5,7 @@ export default function Header({ darkMode, year, onToggleDark, onEditYear }) {
     <div className={`${styles.header} fade-up`}>
       <div className={styles.headerTop}>
         <div>
-          <h1 className={styles.title}>HSC Marks Tracker</h1>
+          <h1 className={styles.title}>School Marks Tracker</h1>
           <div className={styles.subtitle}>Track assessments, weights, and final marks</div>
           <div className={styles.credits}>made by the goat Angad</div>
         </div>
